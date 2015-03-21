@@ -58,7 +58,7 @@ static void main_window_load(Window *window) {
   text_layer_set_text_color(s_whatever_it_is_layer, GColorWhite);
   text_layer_set_font(s_whatever_it_is_layer, fonts_get_system_font(FONT_KEY_GOTHIC_28_BOLD));
   text_layer_set_text_alignment(s_whatever_it_is_layer, GTextAlignmentCenter);
-  text_layer_set_text(s_whatever_it_is_layer, "...LOADING");
+  text_layer_set_text(s_whatever_it_is_layer, "LOADING!");
   
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_time_layer));
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_location_layer));
@@ -91,7 +91,7 @@ static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
 static void inbox_received_callback(DictionaryIterator *iterator, void *context) {  
   static char location_buffer[32];
   static char temperature_buffer[8];
-  static char whatever_it_is_buffer[11];
+  static char whatever_it_is_buffer[10];
   static int temperature;
 
   Tuple *t = dict_read_first(iterator);
@@ -99,24 +99,24 @@ static void inbox_received_callback(DictionaryIterator *iterator, void *context)
   while(t != NULL) {
     switch(t->key) {
       case KEY_LOCATION:
-        // TODO  - add time
         snprintf(location_buffer, sizeof(location_buffer), "%s", t->value->cstring);
         break;
       case KEY_TEMPERATURE:
         temperature = (int)t->value->int32;
         snprintf(temperature_buffer, sizeof(temperature_buffer), "%d\u00B0C ?!", temperature);
       
-        // TODO - simplify
-        if (temperature < 0) {
-          snprintf(whatever_it_is_buffer, sizeof(whatever_it_is_buffer), "...%s", "FREEZING");
-        } else if (temperature < 5) {
-          snprintf(whatever_it_is_buffer, sizeof(whatever_it_is_buffer), "...%s", "COLD");
+        if (temperature < -4) {
+          snprintf(whatever_it_is_buffer, sizeof(whatever_it_is_buffer), "%s", "BALTIC!");
+        } else if (temperature < 0) {
+          snprintf(whatever_it_is_buffer, sizeof(whatever_it_is_buffer), "%s", "FREEZING!");
+        } else if (temperature < 9) {
+          snprintf(whatever_it_is_buffer, sizeof(whatever_it_is_buffer), "%s", "COLD!");
         } else if (temperature < 19) {
-          snprintf(whatever_it_is_buffer, sizeof(whatever_it_is_buffer), "...%s", "ALRIGHT");
+          snprintf(whatever_it_is_buffer, sizeof(whatever_it_is_buffer), "%s", "OKAY!");
         } else if (temperature < 26) {
-          snprintf(whatever_it_is_buffer, sizeof(whatever_it_is_buffer), "...%s", "NICE");
+          snprintf(whatever_it_is_buffer, sizeof(whatever_it_is_buffer), "%s", "WARM!");
         } else {
-          snprintf(whatever_it_is_buffer, sizeof(whatever_it_is_buffer), "...%s", "ROASTING");
+          snprintf(whatever_it_is_buffer, sizeof(whatever_it_is_buffer), "%s", "ROASTING!");
         }
         break;
       default:

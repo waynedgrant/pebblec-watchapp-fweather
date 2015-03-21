@@ -7,16 +7,45 @@ var xhrRequest = function (url, type, callback) {
   xhr.send();
 };
 
-function locationSuccess(pos) {  
-  // TODO - try yahoo weather
-  var url = 'http://api.openweathermap.org/data/2.5/weather?lat=' +
-      pos.coords.latitude + '&lon=' + pos.coords.longitude;
+function lookup_woeid(pos) {
+  console.log('Success requesting location!');
 
+  var url =
+      'https://query.yahooapis.com/v1/public/yql?q=select city, woeid from geo.placefinder where text="' +
+      pos.coords.latitude + ',' +
+      pos.coords.longitude +
+      '" and gflags="R"&format=json';
+
+  console.log(url);
+  
   xhrRequest(url, 'GET', 
     function(responseText) {
       var json = JSON.parse(responseText);
-      var location = json.name;
-      var temperature = Math.round(json.main.temp - 273.15); // Convert Kelvin to Celsius
+      var location = json.query.results.Result.city;
+      var woeid = json.query.results.Result.woeid;
+      
+      console.log("location: " + location + ", woeid: " + woeid);
+      
+      lookup_temp(location, woeid);
+    }
+  );
+}
+
+function lookup_temp(location, woeid) {
+  
+  var url =
+      'https://query.yahooapis.com/v1/public/yql?q=select item.condition.temp from weather.forecast where woeid=' +
+      woeid + ' and u="c"&format=json';
+  
+  console.log(url);
+  
+  xhrRequest(url, 'GET',
+    function(responseText) {
+      var json = JSON.parse(responseText);
+
+      var temperature = parseInt(json.query.results.channel.item.condition.temp);
+          
+      console.log("temperature: " + temperature);
       
       var dictionary = {
         'KEY_LOCATION' : location,
@@ -41,8 +70,8 @@ function locationError(err) {
 
 function getWeather() {
   navigator.geolocation.getCurrentPosition(
-    locationSuccess,
-    locationError,
+    lookup_woeid,
+    locationError, // TODO - proper failure handler
     {timeout: 15000, maximumAge: 60000}
   );
 }
