@@ -47,7 +47,7 @@ static void main_window_load(Window *window) {
   text_layer_set_text_color(s_temperature_layer, GColorWhite);
   text_layer_set_font(s_temperature_layer, fonts_get_system_font(FONT_KEY_BITHAM_30_BLACK));
   text_layer_set_text_alignment(s_temperature_layer, GTextAlignmentCenter);
-  text_layer_set_text(s_temperature_layer, "--\u00B0C ?!");
+  text_layer_set_text(s_temperature_layer, "--\u00B0C");
   
   s_its_fucking_layer = text_layer_create(GRect(0, 104, 144, 35));
   text_layer_set_background_color(s_its_fucking_layer, GColorBlack);
@@ -108,33 +108,34 @@ static void inbox_received_callback(DictionaryIterator *iterator, void *context)
         break;
       case KEY_TEMPERATURE:
         temperature = (int)t->value->int32;
-        snprintf(temperature_buffer, sizeof(temperature_buffer), "%d\u00B0C ?!", temperature);
+        snprintf(temperature_buffer, sizeof(temperature_buffer), "%d\u00B0C ?", temperature);
   
         if (temperature < -4) {
-          snprintf(whatever_it_is_buffer, sizeof(whatever_it_is_buffer), "%s", "BALTIC!");
+          strcpy(whatever_it_is_buffer, "BALTIC!");
         } else if (temperature < 0) {
-          snprintf(whatever_it_is_buffer, sizeof(whatever_it_is_buffer), "%s", "FREEZING!");
+          strcpy(whatever_it_is_buffer, "FREEZING!");
         } else if (temperature < 9) {
-          snprintf(whatever_it_is_buffer, sizeof(whatever_it_is_buffer), "%s", "COLD!");
+          strcpy(whatever_it_is_buffer, "COLD!");
         } else if (temperature < 19) {
-          snprintf(whatever_it_is_buffer, sizeof(whatever_it_is_buffer), "%s", "OKAY!");
+          strcpy(whatever_it_is_buffer, "OKAY!");
         } else if (temperature < 26) {
-          snprintf(whatever_it_is_buffer, sizeof(whatever_it_is_buffer), "%s", "WARM!");
+          strcpy(whatever_it_is_buffer, "WARM!");
+        } else if (temperature < 31) {
+          strcpy(whatever_it_is_buffer, "HOT!");
         } else {
-          snprintf(whatever_it_is_buffer, sizeof(whatever_it_is_buffer), "%s", "ROASTING!");
-        }
+          strcpy(whatever_it_is_buffer, "ROASTING!");
+        }      
         break;
       default:
-        APP_LOG(APP_LOG_LEVEL_ERROR, "Key %d not recognized!", (int)t->key);
         break;
     }
     t = dict_read_next(iterator);
   }
   
   if (!weather_received) {
-    snprintf(location_buffer, sizeof(location_buffer), "%s", "Fucking Nowhere");
-    snprintf(temperature_buffer, sizeof(temperature_buffer), "%s", "?\u00B0C");
-    snprintf(whatever_it_is_buffer, sizeof(whatever_it_is_buffer), "%s", "UNKNOWN!");
+    strcpy(location_buffer, "Fucking Nowhere");
+    strcpy(temperature_buffer, "?\u00B0C");
+    strcpy(whatever_it_is_buffer, "UNKNOWN!");
   }
   
   text_layer_set_text(s_location_layer, location_buffer);
@@ -143,15 +144,12 @@ static void inbox_received_callback(DictionaryIterator *iterator, void *context)
 }
 
 static void inbox_dropped_callback(AppMessageResult reason, void *context) {
-  APP_LOG(APP_LOG_LEVEL_ERROR, "Message dropped!");
 }
 
 static void outbox_failed_callback(DictionaryIterator *iterator, AppMessageResult reason, void *context) {
-  APP_LOG(APP_LOG_LEVEL_ERROR, "Outbox send failed!");
 }
 
 static void outbox_sent_callback(DictionaryIterator *iterator, void *context) {
-  APP_LOG(APP_LOG_LEVEL_INFO, "Outbox send success!");
 }
 
 static void init() {
