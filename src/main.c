@@ -93,18 +93,20 @@ static void inbox_received_callback(DictionaryIterator *iterator, void *context)
   static char temperature_buffer[8];
   static char whatever_it_is_buffer[10];
   static int temperature;
+  int weather_received = 0;
 
   Tuple *t = dict_read_first(iterator);
 
   while(t != NULL) {
+    weather_received = 1;
     switch(t->key) {
       case KEY_LOCATION:
-        snprintf(location_buffer, sizeof(location_buffer), "%s", t->value->cstring);
+        snprintf(location_buffer, sizeof(location_buffer), "Fucking %s", t->value->cstring);
         break;
       case KEY_TEMPERATURE:
         temperature = (int)t->value->int32;
         snprintf(temperature_buffer, sizeof(temperature_buffer), "%d\u00B0C ?!", temperature);
-      
+  
         if (temperature < -4) {
           snprintf(whatever_it_is_buffer, sizeof(whatever_it_is_buffer), "%s", "BALTIC!");
         } else if (temperature < 0) {
@@ -124,6 +126,12 @@ static void inbox_received_callback(DictionaryIterator *iterator, void *context)
         break;
     }
     t = dict_read_next(iterator);
+  }
+  
+  if (!weather_received) {
+    snprintf(location_buffer, sizeof(location_buffer), "%s", "Fucking Nowhere");
+    snprintf(temperature_buffer, sizeof(temperature_buffer), "%s", "?\u00B0C");
+    snprintf(whatever_it_is_buffer, sizeof(whatever_it_is_buffer), "%s", "UNKNOWN!");
   }
   
   text_layer_set_text(s_location_layer, location_buffer);
