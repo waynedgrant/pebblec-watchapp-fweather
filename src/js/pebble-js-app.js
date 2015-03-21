@@ -1,3 +1,6 @@
+// Copyright 2015 Wayne D Grant (www.waynedgrant.com)
+// Licensed under the MIT License
+
 var xhrRequest = function (url, type, callback) {
   var xhr = new XMLHttpRequest();
   xhr.onload = function () {

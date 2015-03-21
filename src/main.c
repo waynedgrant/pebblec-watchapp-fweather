@@ -1,3 +1,6 @@
+// Copyright 2015 Wayne D Grant (www.waynedgrant.com)
+// Licensed under the MIT License
+
 #include <pebble.h>
   
 #define KEY_LOCATION 0
