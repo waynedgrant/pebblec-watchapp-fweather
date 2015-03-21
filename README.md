@@ -1,7 +1,7 @@
 # pebblec-watchapp-fweather
 
 Copyright © 2015 Wayne D Grant
-W
+
 Licensed under the MIT License
 
 Pebble Watch Face App to display f-bomb themed weather for the current location.
