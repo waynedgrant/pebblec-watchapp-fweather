@@ -1,14 +1,14 @@
-# pebblec-watchapp-fweather
+# pebblec-watchface-fweather
 
 Copyright © 2015 Wayne D Grant
 
 Licensed under the MIT License
 
-Pebble Watch Face App to display f-bomb themed weather.
+Pebble Watch Face to display f-bomb themed weather.
 
 ## Overview
 
-pebblec-watchapp-fweather is a Pebble Face Watch App written in C and Javascript that displays f-bomb themed weather for the Pebble's current location.
+pebblec-watchface-fweather is a Pebble Face Watch written in C and Javascript that displays f-bomb themed weather for the Pebble's current location.
 
 ![alt tag](screenshot.png)
 
@@ -19,4 +19,4 @@ pebblec-watchapp-fweather is a Pebble Face Watch App written in C and Javascript
 
 ## Installation
 
-Download [latest pbw](https://github.com/waynedgrant/pebblec-watchapp-fweather/releases) on Android device and install via Pebble app
+Download [latest pbw](https://github.com/waynedgrant/pebblec-watchface-fweather/releases) on Android device and install via Pebble app
