@@ -47,7 +47,7 @@ static void main_window_load(Window *window) {
   text_layer_set_text_color(s_temperature_layer, GColorWhite);
   text_layer_set_font(s_temperature_layer, fonts_get_system_font(FONT_KEY_BITHAM_30_BLACK));
   text_layer_set_text_alignment(s_temperature_layer, GTextAlignmentCenter);
-  text_layer_set_text(s_temperature_layer, "--\u00B0C");
+  text_layer_set_text(s_temperature_layer, "--\u00B0C ?");
   
   s_its_fucking_layer = text_layer_create(GRect(0, 104, 144, 35));
   text_layer_set_background_color(s_its_fucking_layer, GColorBlack);
@@ -109,18 +109,18 @@ static void inbox_received_callback(DictionaryIterator *iterator, void *context)
       case KEY_TEMPERATURE:
         temperature = (int)t->value->int32;
         snprintf(temperature_buffer, sizeof(temperature_buffer), "%d\u00B0C ?", temperature);
-  
-        if (temperature < -4) {
+      
+        if (temperature <= -5) {
           strcpy(whatever_it_is_buffer, "BALTIC!");
-        } else if (temperature < 0) {
+        } else if (temperature <= 0) {
           strcpy(whatever_it_is_buffer, "FREEZING!");
-        } else if (temperature < 9) {
+        } else if (temperature <= 9) {
           strcpy(whatever_it_is_buffer, "COLD!");
-        } else if (temperature < 19) {
+        } else if (temperature <= 19) {
           strcpy(whatever_it_is_buffer, "OKAY!");
-        } else if (temperature < 26) {
+        } else if (temperature <= 24) {
           strcpy(whatever_it_is_buffer, "WARM!");
-        } else if (temperature < 31) {
+        } else if (temperature <= 29) {
           strcpy(whatever_it_is_buffer, "HOT!");
         } else {
           strcpy(whatever_it_is_buffer, "ROASTING!");
