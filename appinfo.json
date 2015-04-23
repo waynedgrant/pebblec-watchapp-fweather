@@ -4,9 +4,10 @@
         "KEY_TEMPERATURE": 1
     },
     "capabilities": [
-        "location"
+        "location",
+        "configurable"
     ],
-    "companyName": "waynedgrant@gmail.com",
+    "companyName": "www.waynedgrant.com",
     "longName": "F Weather",
     "projectType": "native",
     "resources": {
@@ -23,7 +24,7 @@
     "shortName": "F Weather",
     "uuid": "2f2641e7-14de-441f-9b30-c04c331b2a39",
     "versionCode": 1,
-    "versionLabel": "1.0",
+    "versionLabel": "1.1",
     "watchapp": {
         "watchface": true
     }
