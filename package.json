@@ -1,0 +1,39 @@
+{
+    "author": "waynedgrant.com",
+    "dependencies": {},
+    "keywords": [],
+    "name": "f-weather",
+    "pebble": {
+        "capabilities": [
+            "location",
+            "configurable"
+        ],
+        "displayName": "F Weather",
+        "enableMultiJS": true,
+        "messageKeys": {
+            "KEY_LOCATION": 0,
+            "KEY_TEMPERATURE": 1
+        },
+        "projectType": "native",
+        "resources": {
+            "media": [
+                {
+                    "file": "images/fweather.png",
+                    "name": "F_WEATHER_ICON",
+                    "targetPlatforms": null,
+                    "type": "png"
+                }
+            ]
+        },
+        "sdkVersion": "3",
+        "targetPlatforms": [
+            "aplite",
+            "basalt"
+        ],
+        "uuid": "2f2641e7-14de-441f-9b30-c04c331b2a39",
+        "watchapp": {
+            "watchface": true
+        }
+    },
+    "version": "1.2.0"
+}

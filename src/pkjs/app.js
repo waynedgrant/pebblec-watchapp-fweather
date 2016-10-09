@@ -1,4 +1,4 @@
-// Copyright 2015 Wayne D Grant (www.waynedgrant.com)
+// Copyright 2016 Wayne D Grant (waynedgrant.com)
 // Licensed under the MIT License
 
 var xhrRequest = function (url, type, callback) {
@@ -15,36 +15,30 @@ function locationSuccess(pos) {
 }
 
 function lookupWeather(pos) {
-  var url =
-      'https://query.yahooapis.com/v1/public/yql?q=select city, woeid from geo.placefinder where text="' +
-      pos.coords.latitude + ',' +
-      pos.coords.longitude +
-      '" and gflags="R"&format=json';
   
-  xhrRequest(url, 'GET', 
-    function(responseText) {
-      var json = JSON.parse(responseText);
-      var location = json.query.results.Result.city;
-      var woeid = json.query.results.Result.woeid;
-            
-      lookupTemperatureByWoeid(location, woeid);
-    }
-  );
-}
-
-function lookupTemperatureByWoeid(location, woeid) {
-  var url =
-      'https://query.yahooapis.com/v1/public/yql?q=select item.condition.temp from weather.forecast where woeid=' +
-      woeid + ' and u="c"&format=json';
+  var locationText = '"(' + pos.coords.latitude + ',' + pos.coords.longitude + ')"';
     
-  xhrRequest(url, 'GET',
-    function(responseText) {
-      var json = JSON.parse(responseText);
-
+  var weatherLookupUrl =
+      'https://query.yahooapis.com/v1/public/yql' +
+      '?q=select location.city, item.condition.temp from weather.forecast where u="c" and woeid in (SELECT woeid FROM geo.places WHERE text=' + locationText + ')' +
+      '&format=json';
+  
+  console.log('weatherLookupUrl=' + weatherLookupUrl);
+  
+  xhrRequest(weatherLookupUrl, 'GET', 
+    function(responseJson) {
+            
+      console.log('responseJson=' + responseJson);
+      
+      var json = JSON.parse(responseJson);
+      var location = json.query.results.channel.location.city;
       var temperature = parseInt(json.query.results.channel.item.condition.temp);
-                
+      
+      console.log('location=' + location);
+      console.log('temperature=' + temperature);
+            
       sendToPebble(location, temperature);
-    }      
+    }
   );
 }
 
