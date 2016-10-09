@@ -1,6 +1,6 @@
 # pebblec-watchface-fweather
 
-Copyright © 2015 Wayne D Grant
+Copyright © 2016 Wayne D Grant
 
 Licensed under the MIT License
 
@@ -19,4 +19,4 @@ pebblec-watchface-fweather is a Pebble Face Watch written in C and Javascript th
 
 ## Installation
 
-Download [latest pbw](https://github.com/waynedgrant/pebblec-watchface-fweather/releases) on Android device and install via Pebble app
+Download [latest pbw](https://github.com/waynedgrant/pebblec-watchface-fweather/releases) on your Android device and install via Pebble app
