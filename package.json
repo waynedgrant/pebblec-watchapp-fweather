@@ -10,25 +10,28 @@
         ],
         "displayName": "F Weather",
         "enableMultiJS": true,
-        "messageKeys": {
-            "KEY_LOCATION": 0,
-            "KEY_TEMPERATURE": 1
-        },
+        "messageKeys": [
+            "LOCATION",
+            "TEMPERATURE"
+        ],
         "projectType": "native",
         "resources": {
             "media": [
                 {
                     "file": "images/fweather.png",
+                    "menuIcon": true,
                     "name": "F_WEATHER_ICON",
                     "targetPlatforms": null,
-                    "type": "png"
+                    "type": "bitmap"
                 }
             ]
         },
         "sdkVersion": "3",
         "targetPlatforms": [
             "aplite",
-            "basalt"
+            "basalt",
+            "chalk",
+            "diorite"
         ],
         "uuid": "2f2641e7-14de-441f-9b30-c04c331b2a39",
         "watchapp": {

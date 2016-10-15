@@ -19,9 +19,9 @@ function lookupWeather(pos) {
   var locationText = '"(' + pos.coords.latitude + ',' + pos.coords.longitude + ')"';
     
   var weatherLookupUrl =
-      'https://query.yahooapis.com/v1/public/yql' +
-      '?q=select location.city, item.condition.temp from weather.forecast where u="c" and woeid in (SELECT woeid FROM geo.places WHERE text=' + locationText + ')' +
-      '&format=json';
+    'https://query.yahooapis.com/v1/public/yql' +
+    '?q=select location.city, item.condition.temp from weather.forecast where u="c" and woeid in (SELECT woeid FROM geo.places WHERE text=' + locationText + ')' +
+    '&format=json';
   
   console.log('weatherLookupUrl=' + weatherLookupUrl);
   
@@ -51,10 +51,11 @@ function sendToPebble(location , temperature){
   var dictionary = {};
   
   if (location !== null && temperature !== null) {
-    dictionary = {
-      'KEY_LOCATION' : location,
-      'KEY_TEMPERATURE': temperature
-    };
+    
+    var keys = require('message_keys');
+    
+    dictionary[keys.LOCATION] = location;
+    dictionary[keys.TEMPERATURE] = temperature;
   }
       
   Pebble.sendAppMessage(dictionary,

@@ -2,9 +2,6 @@
 // Licensed under the MIT License
 
 #include <pebble.h>
-  
-#define KEY_LOCATION 0
-#define KEY_TEMPERATURE 1
 
 static Window *s_main_window;
 static TextLayer *s_time_layer;
@@ -94,53 +91,47 @@ static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
 static void inbox_received_callback(DictionaryIterator *iterator, void *context) {  
   static char location_buffer[32];
   static char temperature_buffer[8];
-  static char whatever_it_is_buffer[10];
+  static char tell_it_like_it_is_buffer[10];
   static int temperature;
   int weather_received = 0;
-
-  Tuple *t = dict_read_first(iterator);
-
-  while(t != NULL) {
+  
+  Tuple *location_tuple = dict_find(iterator, MESSAGE_KEY_LOCATION);
+  Tuple *temperature_tuple = dict_find(iterator, MESSAGE_KEY_TEMPERATURE);
+  
+  if (location_tuple && temperature_tuple) {
     weather_received = 1;
-    switch(t->key) {
-      case KEY_LOCATION:
-        snprintf(location_buffer, sizeof(location_buffer), "Fucking %s", t->value->cstring);
-        break;
-      case KEY_TEMPERATURE:
-        temperature = (int)t->value->int32;
-        snprintf(temperature_buffer, sizeof(temperature_buffer), "%d\u00B0C ?", temperature);
-      
-        if (temperature <= -5) {
-          strcpy(whatever_it_is_buffer, "BALTIC!");
-        } else if (temperature <= 0) {
-          strcpy(whatever_it_is_buffer, "FREEZING!");
-        } else if (temperature <= 9) {
-          strcpy(whatever_it_is_buffer, "COLD!");
-        } else if (temperature <= 19) {
-          strcpy(whatever_it_is_buffer, "OKAY!");
-        } else if (temperature <= 24) {
-          strcpy(whatever_it_is_buffer, "WARM!");
-        } else if (temperature <= 29) {
-          strcpy(whatever_it_is_buffer, "HOT!");
-        } else {
-          strcpy(whatever_it_is_buffer, "ROASTING!");
-        }      
-        break;
-      default:
-        break;
-    }
-    t = dict_read_next(iterator);
+    
+    temperature = (int)temperature_tuple->value->int32;
+    
+    snprintf(location_buffer, sizeof(location_buffer), "Fucking %s", location_tuple->value->cstring);
+    snprintf(temperature_buffer, sizeof(temperature_buffer), "%d\u00B0C ?", temperature);
+    
+    if (temperature <= -5) {
+      strcpy(tell_it_like_it_is_buffer, "BALTIC!");
+    } else if (temperature <= 0) {
+      strcpy(tell_it_like_it_is_buffer, "FREEZING!");
+    } else if (temperature <= 9) {
+      strcpy(tell_it_like_it_is_buffer, "COLD!");
+    } else if (temperature <= 19) {
+      strcpy(tell_it_like_it_is_buffer, "OKAY!");
+    } else if (temperature <= 24) {
+      strcpy(tell_it_like_it_is_buffer, "WARM!");
+    } else if (temperature <= 29) {
+      strcpy(tell_it_like_it_is_buffer, "HOT!");
+    } else {
+      strcpy(tell_it_like_it_is_buffer, "ROASTING!");
+    }   
   }
   
   if (!weather_received) {
     strcpy(location_buffer, "Fucking Nowhere");
     strcpy(temperature_buffer, "?\u00B0C");
-    strcpy(whatever_it_is_buffer, "UNKNOWN!");
+    strcpy(tell_it_like_it_is_buffer, "FUCKED!");
   }
   
   text_layer_set_text(s_location_layer, location_buffer);
   text_layer_set_text(s_temperature_layer, temperature_buffer);
-  text_layer_set_text(s_whatever_it_is_layer, whatever_it_is_buffer);
+  text_layer_set_text(s_whatever_it_is_layer, tell_it_like_it_is_buffer);
 }
 
 static void inbox_dropped_callback(AppMessageResult reason, void *context) {
