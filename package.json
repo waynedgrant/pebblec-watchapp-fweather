@@ -5,8 +5,7 @@
     "name": "f-weather",
     "pebble": {
         "capabilities": [
-            "location",
-            "configurable"
+            "location"
         ],
         "displayName": "F Weather",
         "enableMultiJS": true,
