@@ -15,7 +15,7 @@ function locationSuccess(pos) {
 }
 
 function lookupWeather(pos) {
-  
+    
   var locationText = '"(' + pos.coords.latitude + ',' + pos.coords.longitude + ')"';
     
   var weatherLookupUrl =
@@ -72,7 +72,11 @@ function getWeather() {
   navigator.geolocation.getCurrentPosition(
     locationSuccess,
     locationError,
-    {timeout: 15000, maximumAge: 60000}
+    {
+      enableHighAccuracy: false,
+      timeout: 15000,
+      maximumAge: 60000
+    }
   );
 }
 

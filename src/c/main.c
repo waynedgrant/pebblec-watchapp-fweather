@@ -8,7 +8,7 @@ static TextLayer *s_time_layer;
 static TextLayer *s_location_layer;
 static TextLayer *s_temperature_layer;
 static TextLayer *s_its_fucking_layer;
-static TextLayer *s_whatever_it_is_layer;
+static TextLayer *s_tell_it_like_it_is_layer;
 
 static void update_time() {
   time_t temp = time(NULL); 
@@ -53,18 +53,18 @@ static void main_window_load(Window *window) {
   text_layer_set_text_alignment(s_its_fucking_layer, GTextAlignmentCenter);
   text_layer_set_text(s_its_fucking_layer, "IT'S FUCKING");
   
-  s_whatever_it_is_layer = text_layer_create(GRect(0, 133, 144, 35));
-  text_layer_set_background_color(s_whatever_it_is_layer, GColorBlack);
-  text_layer_set_text_color(s_whatever_it_is_layer, GColorWhite);
-  text_layer_set_font(s_whatever_it_is_layer, fonts_get_system_font(FONT_KEY_GOTHIC_28_BOLD));
-  text_layer_set_text_alignment(s_whatever_it_is_layer, GTextAlignmentCenter);
-  text_layer_set_text(s_whatever_it_is_layer, "LOADING!");
+  s_tell_it_like_it_is_layer = text_layer_create(GRect(0, 133, 144, 35));
+  text_layer_set_background_color(s_tell_it_like_it_is_layer, GColorBlack);
+  text_layer_set_text_color(s_tell_it_like_it_is_layer, GColorWhite);
+  text_layer_set_font(s_tell_it_like_it_is_layer, fonts_get_system_font(FONT_KEY_GOTHIC_28_BOLD));
+  text_layer_set_text_alignment(s_tell_it_like_it_is_layer, GTextAlignmentCenter);
+  text_layer_set_text(s_tell_it_like_it_is_layer, "LOADING!");
   
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_time_layer));
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_location_layer));
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_temperature_layer));
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_its_fucking_layer));
-  layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_whatever_it_is_layer));
+  layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_tell_it_like_it_is_layer));
 }
 
 static void main_window_unload(Window *window) {
@@ -72,13 +72,13 @@ static void main_window_unload(Window *window) {
   text_layer_destroy(s_location_layer);
   text_layer_destroy(s_temperature_layer);
   text_layer_destroy(s_its_fucking_layer);
-  text_layer_destroy(s_whatever_it_is_layer);
+  text_layer_destroy(s_tell_it_like_it_is_layer);
 }
 
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
   update_time();
   
-  if(tick_time->tm_min % 15 == 0) {
+  if (tick_time->tm_min % 15 == 0) { // Update weather every 15 minutes
     DictionaryIterator *iter;
     app_message_outbox_begin(&iter);
 
@@ -131,7 +131,7 @@ static void inbox_received_callback(DictionaryIterator *iterator, void *context)
   
   text_layer_set_text(s_location_layer, location_buffer);
   text_layer_set_text(s_temperature_layer, temperature_buffer);
-  text_layer_set_text(s_whatever_it_is_layer, tell_it_like_it_is_buffer);
+  text_layer_set_text(s_tell_it_like_it_is_layer, tell_it_like_it_is_buffer);
 }
 
 static void inbox_dropped_callback(AppMessageResult reason, void *context) {
